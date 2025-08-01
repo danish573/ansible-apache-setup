@@ -1,0 +1,25 @@
+---
+- name: Install Apache on localhost using Ansible
+  hosts: webserver
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Ensure Apache is started and enabled
+      service:
+        name: apache2
+        enabled: yes
+        state: started
+
+    - name: Deploy sample homepage
+      copy:
+        dest: /var/www/html/index.html
+        content: "<h1>Apache installed via Ansible on localhost!</h1>"
